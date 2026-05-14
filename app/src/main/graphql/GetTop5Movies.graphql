@@ -1,0 +1,10 @@
+query GetTop5Movies {
+  movies(limit: 5, orderBy: "voteAverage", sort: DESC) {
+    id
+    title
+    voteAverage
+    genres
+    posterPath
+    overview
+  }
+}

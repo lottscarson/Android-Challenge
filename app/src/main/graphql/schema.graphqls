@@ -1,0 +1,53 @@
+type Query {
+  movies(
+    search: String
+    genre: String
+    minPopularity: Float
+    maxPopularity: Float
+    minVoteAverage: Float
+    maxVoteAverage: Float
+    minBudget: Int
+    maxBudget: Int
+    limit: Int
+    offset: Int
+    orderBy: String
+    sort: Sort!
+  ): [Movie!]!
+  movie(id: Int!): Movie!
+  genres: [String!]!
+}
+
+type Movie {
+  id: Int!
+  title: String!
+  originalTitle: String!
+  overview: String!
+  releaseDate: String!
+  voteAverage: Float!
+  voteCount: Int!
+  budget: Int!
+  runtime: Int!
+  popularity: Float!
+  originalLanguage: String!
+  genres: [String!]!
+  cast: [Cast!]!
+  director: Director!
+  posterPath: String
+}
+
+type Cast {
+  name: String!
+  character: String!
+  order: Int!
+  profilePath: String
+}
+
+type Director {
+  id: Int!
+  name: String!
+}
+
+enum Sort {
+  ASC
+  DESC
+}

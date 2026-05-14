@@ -1,0 +1,10 @@
+query GetMoviesByGenre($genre: String) {
+  movies(genre: $genre, orderBy: "voteAverage", sort: DESC, limit: 20) {
+    id
+    title
+    voteAverage
+    genres
+    posterPath
+    overview
+  }
+}

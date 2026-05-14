@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.apollo)
 }
 
 android {
@@ -82,6 +83,13 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
+    // Apollo GraphQL
+    implementation(libs.apollo.runtime)
+
+    // Image loading
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
@@ -96,4 +104,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.okhttp.mockwebserver)
+}
+
+apollo {
+    service("movieapi") {
+        packageName.set("com.podium.technicalchallenge.graphql")
+    }
 }
