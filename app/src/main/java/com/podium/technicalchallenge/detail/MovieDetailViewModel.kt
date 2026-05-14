@@ -24,7 +24,8 @@ class MovieDetailViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    private val movieId: Int = checkNotNull(savedStateHandle["movieId"])
+    private val movieId: Int = savedStateHandle.get<Int>("movieId")
+        ?: error("MovieDetailViewModel requires a 'movieId' nav argument")
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
