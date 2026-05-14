@@ -1,22 +1,41 @@
 package com.podium.technicalchallenge
 
-import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.podium.technicalchallenge.databinding.ActivityMainBinding
+import android.os.Bundle
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.podium.technicalchallenge.common.AppTheme
+import com.podium.technicalchallenge.dashboard.DashboardDestination
+import com.podium.technicalchallenge.detail.MovieDetailDestination
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        setContent {
+            AppTheme {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "dashboard") {
+                    composable("dashboard") {
+                        DashboardDestination(
+                            onMovieClick = { id -> navController.navigate("detail/$id") }
+                        )
+                    }
+                    composable(
+                        route = "detail/{movieId}",
+                        arguments = listOf(navArgument("movieId") { type = NavType.IntType })
+                    ) {
+                        MovieDetailDestination(onBack = { navController.popBackStack() })
+                    }
+                }
+            }
+        }
     }
 }
