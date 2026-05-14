@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MovieDetailDestination(onBack: () -> Unit) {
+fun MovieDetailDestination(movieId: Int, onBack: () -> Unit) {
     BackHandler(onBack = onBack)
     Surface(modifier = Modifier.fillMaxSize()) {
         Box(contentAlignment = Alignment.Center) {

@@ -31,8 +31,11 @@ class MainActivity : AppCompatActivity() {
                     composable(
                         route = "detail/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
-                    ) {
-                        MovieDetailDestination(onBack = { navController.popBackStack() })
+                    ) { backStackEntry ->
+                        MovieDetailDestination(
+                            movieId = backStackEntry.arguments!!.getInt("movieId"),
+                            onBack = { navController.popBackStack() }
+                        )
                     }
                 }
             }
