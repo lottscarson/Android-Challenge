@@ -25,10 +25,13 @@ fun DashboardDestination(onMovieClick: (Int) -> Unit) {
     val viewModel = hiltViewModel<DashboardViewModel>()
     val uiState by viewModel.uiState.collectAsState()
     val selectedGenre by viewModel.selectedGenre.collectAsState()
+    val selectedRating by viewModel.selectedRating.collectAsState()
     DashboardScreen(
         uiState = uiState,
         selectedGenre = selectedGenre,
+        selectedRating = selectedRating,
         onGenreSelected = viewModel::onGenreSelected,
+        onRatingSelected = viewModel::onRatingSelected,
         onMovieClick = onMovieClick
     )
 }
@@ -37,7 +40,9 @@ fun DashboardDestination(onMovieClick: (Int) -> Unit) {
 fun DashboardScreen(
     uiState: DashboardUiState,
     selectedGenre: String?,
+    selectedRating: Int?,
     onGenreSelected: (String?) -> Unit,
+    onRatingSelected: (Int?) -> Unit,
     onMovieClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -79,7 +84,9 @@ fun DashboardScreen(
                             genres = uiState.genres,
                             movies = uiState.browseMovies,
                             selectedGenre = selectedGenre,
+                            selectedRating = selectedRating,
                             onGenreSelected = onGenreSelected,
+                            onRatingSelected = onRatingSelected,
                             onMovieClick = onMovieClick
                         )
                     }
@@ -106,7 +113,9 @@ private fun BrowseTab(
     genres: List<String>,
     movies: List<Movie>,
     selectedGenre: String?,
+    selectedRating: Int?,
     onGenreSelected: (String?) -> Unit,
+    onRatingSelected: (Int?) -> Unit,
     onMovieClick: (Int) -> Unit
 ) {
     Column {
@@ -114,6 +123,10 @@ private fun BrowseTab(
             genres = genres,
             selectedGenre = selectedGenre,
             onGenreSelected = onGenreSelected
+        )
+        RatingChipRow(
+            selectedRating = selectedRating,
+            onRatingSelected = onRatingSelected
         )
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -149,6 +162,33 @@ private fun GenreChipRow(
                 label = genre,
                 isSelected = genre == selectedGenre,
                 onClick = { onGenreSelected(if (genre == selectedGenre) null else genre) }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun RatingChipRow(
+    selectedRating: Int?,
+    onRatingSelected: (Int?) -> Unit
+) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        item {
+            GenreChip(
+                label = "Any Rating",
+                isSelected = selectedRating == null,
+                onClick = { onRatingSelected(null) }
+            )
+        }
+        items((9 downTo 1).toList()) { stars ->
+            GenreChip(
+                label = "$stars Stars +",
+                isSelected = stars == selectedRating,
+                onClick = { onRatingSelected(if (stars == selectedRating) null else stars) }
             )
         }
     }

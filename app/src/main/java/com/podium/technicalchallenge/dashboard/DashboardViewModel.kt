@@ -29,6 +29,9 @@ class DashboardViewModel @Inject constructor(
     private val _selectedGenre = MutableStateFlow<String?>(null)
     val selectedGenre: StateFlow<String?> = _selectedGenre.asStateFlow()
 
+    private val _selectedRating = MutableStateFlow<Int?>(null)
+    val selectedRating: StateFlow<Int?> = _selectedRating.asStateFlow()
+
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Loading)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
@@ -52,13 +55,25 @@ class DashboardViewModel @Inject constructor(
 
     fun onGenreSelected(genre: String?) {
         _selectedGenre.value = genre
+        reloadBrowse()
+    }
+
+    fun onRatingSelected(rating: Int?) {
+        _selectedRating.value = rating
+        reloadBrowse()
+    }
+
+    private fun reloadBrowse() {
         viewModelScope.launch {
             val current = (_uiState.value as? DashboardUiState.Success) ?: return@launch
             try {
-                val browse = movieRepository.getMoviesByGenre(genre)
+                val browse = movieRepository.getMoviesByGenre(
+                    genre = _selectedGenre.value,
+                    minVoteAverage = _selectedRating.value?.toFloat()
+                )
                 _uiState.value = current.copy(browseMovies = browse)
             } catch (e: Exception) {
-                _uiState.value = current  // keep existing data; don't nuke the screen on filter failure
+                _uiState.value = current
             }
         }
     }
