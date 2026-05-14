@@ -20,7 +20,7 @@ class MovieRepository @Inject constructor(private val apolloClient: ApolloClient
         apolloClient.query(GetGenresQuery()).execute()
             .dataOrThrow().genres
 
-    suspend fun getMoviesByGenre(genre: String?, minVoteAverage: Float? = null): List<Movie> =
+    suspend fun getMoviesByGenre(genre: String?, minVoteAverage: Double? = null): List<Movie> =
         apolloClient.query(
             GetMoviesByGenreQuery(
                 genre = Optional.presentIfNotNull(genre),

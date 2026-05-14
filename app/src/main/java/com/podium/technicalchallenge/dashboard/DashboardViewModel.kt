@@ -69,7 +69,7 @@ class DashboardViewModel @Inject constructor(
             try {
                 val browse = movieRepository.getMoviesByGenre(
                     genre = _selectedGenre.value,
-                    minVoteAverage = _selectedRating.value?.toFloat()
+                    minVoteAverage = _selectedRating.value?.toDouble()
                 )
                 _uiState.value = current.copy(browseMovies = browse)
             } catch (e: Exception) {
