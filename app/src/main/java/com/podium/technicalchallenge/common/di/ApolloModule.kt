@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -16,22 +15,9 @@ object ApolloModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                chain.proceed(
-                    chain.request().newBuilder()
-                        .header("x-api-key", API_KEY)
-                        .build()
-                )
-            }
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient =
+    fun provideApolloClient(): ApolloClient =
         ApolloClient.Builder()
             .serverUrl(BASE_URL)
-            .okHttpClient(okHttpClient)
+            .addHttpHeader("x-api-key", API_KEY)
             .build()
 }
