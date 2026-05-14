@@ -1,4 +1,14 @@
 # Add project specific ProGuard rules here.
+
+# Keep domain models (used reflectively by Apollo type mappings)
+-keep class com.podium.technicalchallenge.common.Movie { *; }
+-keep class com.podium.technicalchallenge.common.Director { *; }
+-keep class com.podium.technicalchallenge.common.CastMember { *; }
+
+# Preserve stack traces in crash reports
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
 #

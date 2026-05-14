@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.podium.technicalchallenge.common.Movie
 import com.podium.technicalchallenge.common.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +36,8 @@ class DashboardViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Loading)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
+    private var reloadJob: Job? = null
+
     init {
         loadDashboard()
     }
@@ -54,17 +57,20 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun onGenreSelected(genre: String?) {
+        val prev = _selectedGenre.value
         _selectedGenre.value = genre
-        reloadBrowse()
+        reloadBrowse(onError = { _selectedGenre.value = prev })
     }
 
     fun onRatingSelected(rating: Int?) {
+        val prev = _selectedRating.value
         _selectedRating.value = rating
-        reloadBrowse()
+        reloadBrowse(onError = { _selectedRating.value = prev })
     }
 
-    private fun reloadBrowse() {
-        viewModelScope.launch {
+    private fun reloadBrowse(onError: () -> Unit = {}) {
+        reloadJob?.cancel()
+        reloadJob = viewModelScope.launch {
             val current = (_uiState.value as? DashboardUiState.Success) ?: return@launch
             try {
                 val browse = movieRepository.getMoviesByGenre(
@@ -73,6 +79,7 @@ class DashboardViewModel @Inject constructor(
                 )
                 _uiState.value = current.copy(browseMovies = browse)
             } catch (e: Exception) {
+                onError()
                 _uiState.value = current
             }
         }

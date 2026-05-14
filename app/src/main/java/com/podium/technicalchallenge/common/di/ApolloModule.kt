@@ -11,6 +11,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApolloModule {
     private const val BASE_URL = "https://podium-fe-challenge-2021.netlify.app/.netlify/functions/graphql"
+
+    // This should be in a secrets file, but for the purposes of this exercise, putting it here
     private const val API_KEY = "da2-7dph3xgybbffjn3mik4jii4equ"
 
     @Provides

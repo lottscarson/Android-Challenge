@@ -46,7 +46,7 @@ fun DashboardScreen(
     onMovieClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     val tabs = listOf("Top 5", "Browse")
 
     Scaffold(
@@ -233,7 +233,7 @@ fun MovieCard(movie: Movie, onClick: () -> Unit, modifier: Modifier = Modifier) 
                     .background(MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
             ) {
                 AsyncImage(
-                    model = movie.posterPath,
+                    model = movie.posterPath?.let { "https://image.tmdb.org/t/p/w185$it" },
                     contentDescription = movie.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

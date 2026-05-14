@@ -2,9 +2,11 @@ package com.podium.technicalchallenge.detail
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 
 @Composable
-fun MovieDetailDestination(movieId: Int, onBack: () -> Unit) {
+fun MovieDetailDestination(onBack: () -> Unit) {
     BackHandler(onBack = onBack)
     val viewModel = hiltViewModel<MovieDetailViewModel>()
     val uiState by viewModel.uiState.collectAsState()
@@ -95,7 +97,7 @@ private fun MovieDetailContent(
                     .background(MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
             ) {
                 AsyncImage(
-                    model = movie.posterPath,
+                    model = movie.posterPath?.let { "https://image.tmdb.org/t/p/w500$it" },
                     contentDescription = movie.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -116,7 +118,10 @@ private fun MovieDetailContent(
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier.horizontalScroll(rememberScrollState())
+                ) {
                     movie.genres.forEach { genre ->
                         Surface(
                             shape = RoundedCornerShape(12.dp),
