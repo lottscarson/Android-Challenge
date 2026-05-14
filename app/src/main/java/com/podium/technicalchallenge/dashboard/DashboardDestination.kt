@@ -1,6 +1,7 @@
 package com.podium.technicalchallenge.dashboard
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -184,15 +185,20 @@ fun MovieCard(movie: Movie, onClick: () -> Unit, modifier: Modifier = Modifier) 
         shape = RoundedCornerShape(8.dp)
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
-            AsyncImage(
-                model = movie.posterPath,
-                contentDescription = movie.title,
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
                     .width(80.dp)
                     .height(120.dp)
                     .clip(RoundedCornerShape(4.dp))
-            )
+                    .background(MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
+            ) {
+                AsyncImage(
+                    model = movie.posterPath,
+                    contentDescription = movie.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(

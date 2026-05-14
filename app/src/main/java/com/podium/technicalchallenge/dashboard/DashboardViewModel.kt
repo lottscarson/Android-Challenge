@@ -58,7 +58,7 @@ class DashboardViewModel @Inject constructor(
                 val browse = movieRepository.getMoviesByGenre(genre)
                 _uiState.value = current.copy(browseMovies = browse)
             } catch (e: Exception) {
-                _uiState.value = DashboardUiState.Error(e.message ?: "Failed to load movies")
+                _uiState.value = current  // keep existing data; don't nuke the screen on filter failure
             }
         }
     }
