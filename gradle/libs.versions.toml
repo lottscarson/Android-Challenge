@@ -8,9 +8,7 @@ constraintlayout = "2.2.1"
 composeBom = "2026.01.00"
 navigation = "2.9.6"
 coroutines = "1.10.2"
-retrofit = "2.11.0"
 okhttp = "4.12.0"
-gson = "2.13.2"
 fragment = "1.8.9"
 hilt = "2.58"
 hiltAndroidx = "1.3.0"
@@ -49,9 +47,6 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 # Networking
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }

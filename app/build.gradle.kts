@@ -74,9 +74,6 @@ dependencies {
     // Networking
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.scalars)
-    implementation(libs.gson)
 
     // Hilt
     implementation(libs.hilt.android)

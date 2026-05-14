@@ -26,7 +26,7 @@ class MovieRepository @Inject constructor(private val apolloClient: ApolloClient
 
     suspend fun getMovieDetail(id: Int): Movie =
         apolloClient.query(GetMovieDetailQuery(id = id)).execute()
-            .dataOrThrow().movie.toDomainDetail()
+            .dataOrThrow().movie?.toDomainDetail() ?: throw NoSuchElementException("Movie not found")
 }
 
 private fun GetTop5MoviesQuery.Movie.toDomainSummary() = Movie(
