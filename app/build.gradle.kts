@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.animation)
     implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.core)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
